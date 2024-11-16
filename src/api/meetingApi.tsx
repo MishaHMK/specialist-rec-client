@@ -28,4 +28,13 @@ export default class MeetingApi {
 
         return response;
     };
+
+    getBookedDates = async (therapistId : string)  => {
+        const response =  await axios.get(`https://localhost:44335/api/Meeting/bookedDates/${therapistId}`)
+        .catch((error: AxiosError) => {
+            throw new Error(error.message);
+        }); 
+
+        return response;
+    };
 }

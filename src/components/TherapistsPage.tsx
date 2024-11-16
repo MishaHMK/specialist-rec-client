@@ -5,6 +5,7 @@ import {ITherapist} from '../interfaces/ITherapist';
 import MeetingApi from '../api/meetingApi';
 import AuthLocalStorage from '../AuthLocalStorage';
 import { jwtDecode } from 'jwt-decode';
+import  CreateMeetingModal  from '../components/CreateMeetingModal'
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -33,29 +34,14 @@ export const TherapistsPage: React.FC = () => {
 
   const therapistSevice = new TherapistApi();
 
-  const handleActionClick = async (values: { id: string; title: string; url: string; date: any; isOnline: boolean }) => {
-    try {
-        const newMeeting = {
-            title: values.title,
-            url: values.url,
-            startDate: values.date.format('YYYY-MM-DDTHH:mm:ss'),
-            isOnline: values.isOnline,
-            clientId: userId,
-            therapistId: therapistId
-        };
-        await meetingService.createMeeting(newMeeting); 
-        message.success('Meeting created successfully!');
-        setIsCreateModalVisible(false);
-        form.resetFields();
-    } catch (error) {
-        message.error('Failed to create meeting');
-    }
-    console.log(therapistId);
-  };
-
   const handleModal = (id: string) => {
-    setIsCreateModalVisible(true);
     setTherapistId(id);
+    setIsCreateModalVisible(true);
+};
+
+  const handleMeetingCreated = () => {
+      setIsCreateModalVisible(false);
+      message.success('Meeting created successfully');
   };
 
   const fetchTherapists = async (page: number, pageSize: number, specialization: string) => {
@@ -84,7 +70,7 @@ export const TherapistsPage: React.FC = () => {
 
   const handleSpecializationChange = (value: string) => {
     setSpecializationFilter(value);
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1); 
   };
 
   const getAvatarColor = (specialityName: string | null) => {
@@ -168,51 +154,13 @@ export const TherapistsPage: React.FC = () => {
           </Col>
         ))}
       </Row>
-      <Modal
-                title="Create New Meeting"
-                visible={isCreateModalVisible}
-                onCancel={() => setIsCreateModalVisible(false)}
-                footer={null}
-            >
-                <Form form={form} onFinish={handleActionClick} layout="vertical">
-                    <Form.Item
-                        label="Title"
-                        name="title"
-                        rules={[{ required: true, message: 'Please enter a title' }]}
-                    >
-                        <Input placeholder="Enter meeting title" />
-                    </Form.Item>
-                    <Form.Item
-                        label="Date & Time"
-                        name="date"
-                        rules={[{ required: true, message: 'Please select a date and time' }]}
-                    >
-                        <DatePicker showTime style={{ width: '100%' }} />
-                    </Form.Item>
-                    <Form.Item
-                        label="Is Online?"
-                        name="isOnline"
-                        rules={[{ required: true, message: 'Please select meeting type' }]}
-                    >
-                        <Select placeholder="Select type">
-                            <Option value={true}>Online</Option>
-                            <Option value={false}>Offline</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="URL (for online meetings)"
-                        name="url"
-                        rules={[{ required: false }]}
-                    >
-                        <Input placeholder="Enter meeting URL" />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                            Create Meeting
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+      <CreateMeetingModal
+            visible={isCreateModalVisible}
+            onClose={() => setIsCreateModalVisible(false)}
+            therapistId={therapistId}
+            clientId={userId}
+            onMeetingCreated={handleMeetingCreated}
+        />
     </div>
   );
 };
