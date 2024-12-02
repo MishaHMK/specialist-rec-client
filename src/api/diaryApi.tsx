@@ -35,10 +35,9 @@ export default class DiaryApi {
         return response;
     };
 
-
-    getAllEntries = async (id: number, page: number, pageSize: number) => {
+    getAllEntries = async (page: number, pageSize: number) => {
         try {
-        const response = await axios.get(`https://localhost:44335/api/Diary/entries/${id}`, {
+        const response = await axios.get(`https://localhost:44335/api/Diary/entries/`, {
             params: { page, pageSize },
         });
         
@@ -53,6 +52,48 @@ export default class DiaryApi {
         } catch (error) {
         const axiosError = error as AxiosError;
         console.error('Error fetching diary entries:', axiosError.message);
+        throw new Error(axiosError.message);
+        }
+    };
+    
+    getAllPatientEntries = async (userId: string, page: number, pageSize: number) => {
+        try {
+        const response = await axios.get(`https://localhost:44335/api/Diary/patient_entries/`, {
+            params: { userId, page, pageSize },
+        });
+        
+        if (response && response.data) {
+            return {
+            entries: response.data.entries || [],
+            totalCount: response.data.totalCount || 0,
+            };
+        } else {
+            throw new Error('No data available');
+        }
+        } catch (error) {
+        const axiosError = error as AxiosError;
+        console.error('Error fetching diary entries:', axiosError.message);
+        throw new Error(axiosError.message);
+        }
+    };
+
+    getAllPatients = async (page: number, pageSize: number) => {
+        try {
+        const response = await axios.get(`https://localhost:44335/api/Diary/patients/`, {
+            params: { page, pageSize },
+        });
+        
+        if (response && response.data) {
+            return {
+            patients: response.data.patients || [],
+            totalCount: response.data.totalCount || 0,
+            };
+        } else {
+            throw new Error('No data available');
+        }
+        } catch (error) {
+        const axiosError = error as AxiosError;
+        console.error('Error fetching patients:', axiosError.message);
         throw new Error(axiosError.message);
         }
     };

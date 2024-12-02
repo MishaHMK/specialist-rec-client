@@ -29,6 +29,7 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [state, actions] = useUserStore();
   const [id, setId] = useState<string>("");
+  const [role, setRole] = useState<string>("");
   const [username, setUsername] = useState<string>();
   const isAuthenticated = AuthorizeApi.isSignedIn();
   const token = AuthLocalStorage.getToken() as string;
@@ -45,7 +46,10 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
   const fetchData = async () => {
     if(isAuthenticated){
        const user: any = jwtDecode(token);
+       console.log(user);
        const userId = user["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+       const role = user["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+       setRole(role);
        await userService.getById(userId)
        .then(async (response) => {
          state.currentUserId = userId;
@@ -80,10 +84,29 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
     }
   };
 
+  const toPatientDiary = () => checkAuthenticationAndNavigate("../patients");
   const toDiary = () => checkAuthenticationAndNavigate("../diary");
   const toSpecialists = () => checkAuthenticationAndNavigate("../therapists");
   const toMeetings = () => checkAuthenticationAndNavigate("../meetings");
   const toRecommendations = () => checkAuthenticationAndNavigate("../recommendation");
+
+  const getFirstMenuItem = () => {
+    if (role === 'Therapist') {
+      return {
+        key: '1',
+        icon: <UserOutlined />,
+        label: 'Patient Diary',
+        onClick: toPatientDiary,
+      };
+    }
+    return {
+      key: '1',
+      icon: <BookOutlined />,
+      label: 'Diary',
+      onClick: toDiary,
+    };
+  };
+
 
   const handleLogOut = () => {
     authService.logout();
@@ -113,12 +136,7 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
           mode="inline"
           defaultSelectedKeys={['1']}
           items={[
-            {
-              key: '1',
-              icon: <BookOutlined />,
-              label: 'Diary',
-              onClick: toDiary
-            },
+            getFirstMenuItem(),
             {
               key: '2',
               icon: <UserOutlined />,

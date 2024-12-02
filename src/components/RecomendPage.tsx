@@ -3,12 +3,13 @@ import { Card, Modal, Button, Typography} from 'antd';
 import { RecomendDoc } from './RecomendDoc';
 import { RecomendTips } from './RecomendTips';
 import recommendationApi from "../api/recommendationApi";
+import { IRecommendation } from '../interfaces/IRecommendation';
 const { Text, Link } = Typography;
 
 export const RecomendPage: React.FC = () => {
   const [isDocModalVisible, setIsDocModalVisible] = useState(false);
   const [isTipsModalVisible, setIsTipsModalVisible] = useState(false);
-  const [docData, setDocData] = useState(null);
+  const [docData, setDocData] = useState<IRecommendation | null>(null);
   const [tipsData, setTipsData] = useState(null);
   const [loadingDoc, setLoadingDoc] = useState(false);
   const [loadingTips, setLoadingTips] = useState(false);
@@ -21,6 +22,7 @@ export const RecomendPage: React.FC = () => {
 
     recService.recommend()
       .then(response => {
+        console.log(response.data);
         setDocData(response.data);
       })
       .catch(error => {
@@ -79,7 +81,7 @@ export const RecomendPage: React.FC = () => {
         footer={<Button onClick={closeDocModal}>Close</Button>}
         centered
       >
-        {loadingDoc ? <p>Loading...</p> : <RecomendDoc data={docData || []} />}
+        {loadingDoc ? <p>Loading...</p> : <RecomendDoc data={docData} />}
       </Modal>
 
       <Modal

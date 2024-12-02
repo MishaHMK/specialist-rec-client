@@ -116,7 +116,7 @@ export const MeetingsPage: React.FC = () => {
                                 description={
                                     <>
                                         <div><strong>Time:</strong> {dayjs(meeting.startDate).format('HH:mm')}</div>
-                                        {meeting.isOnline && meeting.url && (
+                                        {meeting.url && (
                                             <div><strong>URL:</strong> <a href={meeting.url}>{meeting.url}</a></div>
                                         )}
                                     </>

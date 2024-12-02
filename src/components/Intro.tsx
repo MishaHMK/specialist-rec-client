@@ -37,17 +37,17 @@ export const Intro: React.FC = () => {
         <div style={contentStyle}>
           <Carousel autoplay autoplaySpeed={5000} dots={true} dotPosition="top" style={{ paddingBottom: '8%' }}>
             <div>
-              <h1 style={{ paddingTop: '3%', color: "white" }}>Search Title</h1>
+              <h1 style={{ paddingTop: '3%', color: "white" }}>Diary</h1>
               <ReconciliationFilled style={{ paddingTop: '5%', color: "white", fontSize: "120px" }} />
-              <h3 style={{ paddingTop: '5%', color: "white" }}>Search Line <br /> Search Line2</h3>
+              <h3 style={{ paddingTop: '5%', color: "white" }}>A personal journal, you to record entries describing <br /> your emotional states and experiences.</h3>
               <div style={{ paddingTop: '5%' }}>
-                <Button type="primary" shape="round">Search</Button>
+                <Button type="primary" shape="round">Diary</Button>
               </div>
             </div>
             <div>
-              <h1 style={{ paddingTop: '3%', color: "white" }}>Title</h1>
+              <h1 style={{ paddingTop: '3%', color: "white" }}>Meeting</h1>
               <CalendarFilled style={{ paddingTop: '5%', color: "white", fontSize: "120px" }} />
-              <h3 style={{ paddingTop: '5%', color: "white" }}>Text <br /> Text2</h3>
+              <h3 style={{ paddingTop: '5%', color: "white" }}>Manage the  <br /> Text2</h3>
               <div style={{ paddingTop: '5%' }}>
                 <Button onClick={toCalendar} type="primary" shape="round">Meetings</Button>
               </div>

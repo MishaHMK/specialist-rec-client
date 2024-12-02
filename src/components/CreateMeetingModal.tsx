@@ -24,7 +24,7 @@ const CreateMeetingModal: React.FC<CreateMeetingModalProps> = ({ visible, onClos
         }
     }, [visible]);
 
-    const fetchBookedTimes = async (date: string) => {
+    const fetchBookedTimes = async () => {
         try {
             const response = await meetingService.getBookedDates(therapistId);
             setBookedTimes(response.data.map((time: string) => dayjs(time).hour()));
@@ -33,19 +33,20 @@ const CreateMeetingModal: React.FC<CreateMeetingModalProps> = ({ visible, onClos
         }
     };
 
-    const disableWeekends = (currentDate: dayjs.Dayjs) => {
-        const day = currentDate.day();
-        return day === 0 || day === 6; // Disable Sundays (0) and Saturdays (6)
-    };
-
     const disableUnavailableTimes = () => {
         const allHours = Array.from({ length: 24 }, (_, i) => i);
         return allHours.filter(hour => hour < 8 || hour >= 18 || bookedTimes.includes(hour));
     };
 
+    const disablePastAndWeekendDates = (currentDate: dayjs.Dayjs) => {
+        const today = dayjs().startOf('day');
+        const day = currentDate.day();
+        return currentDate.isBefore(today) || day === 0 || day === 6; // Disable past dates and weekends
+    };
+
     const handleDateChange = (date: dayjs.Dayjs) => {
         if (date) {
-            fetchBookedTimes(date.format('YYYY-MM-DD'));
+            fetchBookedTimes();
         }
     };
 
@@ -95,7 +96,7 @@ const CreateMeetingModal: React.FC<CreateMeetingModalProps> = ({ visible, onClos
                             disabledMinutes: () => Array.from({ length: 60 }, (_, i) => i).filter(minute => minute !== 0),
                         }}
                         format="YYYY-MM-DD HH:00"
-                        disabledDate={disableWeekends}
+                        disabledDate={disablePastAndWeekendDates} // Updated to disable weekends and past dates
                         onChange={handleDateChange}
                         style={{ width: '100%' }}
                     />

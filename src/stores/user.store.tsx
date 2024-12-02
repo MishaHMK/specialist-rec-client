@@ -19,7 +19,7 @@ const initialState: State = {
             "Addiction Treatment",
             "Child Therapy",
             "Family Therapy",
-            "Counseling"],
+            "Cognitive Therapy"],
     dates: [],
     appointments:[],
     times: [],

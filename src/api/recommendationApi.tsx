@@ -30,7 +30,7 @@ export default class recommendationApi {
         .catch((error: AxiosError) => {
             throw new Error(error.message);
         }); 
-
+        
         return response;
     };
 

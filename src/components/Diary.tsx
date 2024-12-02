@@ -36,7 +36,7 @@ export const DiaryPage: React.FC = () => {
       if (response.data) {
         setDiaryId(response.data);
         setDiaryExists(true);
-        fetchDiaryEntries(response.data, currentPage, pageSize);
+        fetchDiaryEntries(currentPage, pageSize);
       } else {
         setDiaryExists(false);
       }
@@ -45,9 +45,9 @@ export const DiaryPage: React.FC = () => {
     }
   };
 
-  const fetchDiaryEntries = async (id: number, page: number, pageSize: number) => {
+  const fetchDiaryEntries = async (page: number, pageSize: number) => {
     try {
-      const response = await diaryService.getAllEntries(id, page, pageSize);
+      const response = await diaryService.getAllEntries(page, pageSize);
       setEntries(response.entries);
       setTotalEntries(response.totalCount);
     } catch (error) {
@@ -82,7 +82,7 @@ export const DiaryPage: React.FC = () => {
       message.success('Entry added successfully!');
       setIsModalVisible(false);
       form.resetFields();
-      fetchDiaryEntries(diaryId!, currentPage, pageSize); 
+      fetchDiaryEntries(currentPage, pageSize); 
     } catch (error) {
       message.error('Failed to add entry');
       console.error(error);
@@ -93,7 +93,7 @@ export const DiaryPage: React.FC = () => {
     setCurrentPage(page);
     setPageSize(pageSize);
     if (diaryId) {
-      fetchDiaryEntries(diaryId, page, pageSize);
+      fetchDiaryEntries(page, pageSize);
     }
   };
 

@@ -3,5 +3,5 @@ export const SpecialityMapping: { [key: string]: number } = {
     "Addiction Treatment": 2,
     "Child Therapy": 3,
     "Family Therapy": 4,
-    "Counseling": 5
+    "Cognitive Therapy": 5
 };

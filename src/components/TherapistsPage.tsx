@@ -83,7 +83,7 @@ export const TherapistsPage: React.FC = () => {
         return '#32CD32';
       case 'Family Therapy':
         return '#FFD700';
-      case 'Counseling':
+      case 'Cognitive Therapy':
         return '#6A5ACD';
       default:
         return '#CCCCCC';
@@ -148,7 +148,7 @@ export const TherapistsPage: React.FC = () => {
                 style={{ marginTop: '10px', width: '100%' }} 
                 onClick={() => handleModal(therapist.id)}
               >
-                Appointments
+                Book a meeting
               </Button> 
             </Card>
           </Col>

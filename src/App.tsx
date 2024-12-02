@@ -8,6 +8,8 @@ import { RecomendPage } from './components/RecomendPage';
 import { TherapistsPage } from './components/TherapistsPage';
 import { MeetingsPage } from './components/Meetings';
 import { ProfilePage } from './components/ProfilePage';
+import { UsersDiary } from './components/UsersDiary';
+import { PatientsPage } from './components/Patients';
 import './App.css';
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
               <Route path="/recommendation" element={<RecomendPage />} />
               <Route path="/diary" element={<DiaryPage />} />
               <Route path="/meetings" element={<MeetingsPage />} />
+              <Route path="/patients" element={<PatientsPage />} />
+              <Route path="/diary/:patientId/:patientName" element={<UsersDiary />} />
             </Routes> 
           </NavBar>
         </div>
