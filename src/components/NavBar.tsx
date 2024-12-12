@@ -11,12 +11,14 @@ import {
   HeartOutlined
 } from '@ant-design/icons';
 import AuthorizeApi from "../api/authorizeApi";
-import { Button, Dropdown, Avatar, Space, Menu, Layout, theme, Typography } from 'antd';
+import { Button, Dropdown, Avatar, Space, Menu, Layout, theme, Typography, Radio  } from 'antd';
 import AuthLocalStorage from '../AuthLocalStorage';
 import { jwtDecode } from 'jwt-decode';
 import { useUserStore } from '../stores/user.store';
 import { useNavigate } from "react-router-dom";
 import UserApi from "../api/userApi";
+import { useTranslation } from 'react-i18next';
+
 const { Text } = Typography;
 
 const { Header, Sider, Content } = Layout;
@@ -33,6 +35,13 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
   const [username, setUsername] = useState<string>();
   const isAuthenticated = AuthorizeApi.isSignedIn();
   const token = AuthLocalStorage.getToken() as string;
+
+  const { t, i18n } = useTranslation();
+
+  // Function to change language
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   const navigate = useNavigate();
 
@@ -95,17 +104,23 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
       return {
         key: '1',
         icon: <UserOutlined />,
-        label: 'Patient Diary',
+        label: t('patientDiary'),
         onClick: toPatientDiary,
       };
     }
     return {
       key: '1',
       icon: <BookOutlined />,
-      label: 'Diary',
+      label: t('diary'),
       onClick: toDiary,
     };
   };
+
+  const radioButtonStyle = {
+    borderRadius: '50px', // Rounded corners
+    margin: 0,           // Prevent spacing between buttons
+  };
+  
 
 
   const handleLogOut = () => {
@@ -124,6 +139,7 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
     </Menu>
   );
 
+  
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -140,27 +156,39 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
             {
               key: '2',
               icon: <UserOutlined />,
-              label: 'Specialists',
+              label:  t('specialists'),
               onClick: toSpecialists
             },
             {
               key: '3',
               icon: <SnippetsOutlined />,
-              label: 'Meetings',
+              label: t('meetings'),
               onClick: toMeetings
             },
             {
               key: '4',
               icon: <ZoomInOutlined />,
-              label: 'Recommendation',
+              label: t('recommendation'),
               onClick: toRecommendations
             },
           ]}
         />
         {!collapsed &&
         <div style={styles.footer}>
+            <Radio.Group
+    buttonStyle="solid"
+    value={i18n.language}
+    onChange={(e) => changeLanguage(e.target.value)}>
+        <Radio.Button value="ua" style={radioButtonStyle}>
+          UA
+        </Radio.Button>
+        <Radio.Button value="en" style={radioButtonStyle}>
+          EN
+        </Radio.Button>
+      </Radio.Group>
+          <p></p>
           <p style={styles.footerText}>© 2024 TherapyApp</p>
-          <p style={styles.footerText}>Contact: support@therapyapp.com</p>
+          <p style={styles.footerText}>{t('contact')}: support@therapyapp.com</p>
         </div>}
       </Sider>
       <Layout>
@@ -189,7 +217,7 @@ const NavBar: React.FC<NavBarProps> = ({ children }) => {
               <Dropdown overlay={userMenu} placement="bottomRight">
                 <Space>
                   <Avatar icon={<UserOutlined />} />
-                  <span>Welcome, {username}</span>
+                  <span>{t('welcome')}, {username}</span>
                 </Space>
               </Dropdown>
             ) : (

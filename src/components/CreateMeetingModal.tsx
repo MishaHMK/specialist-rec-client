@@ -41,7 +41,7 @@ const CreateMeetingModal: React.FC<CreateMeetingModalProps> = ({ visible, onClos
     const disablePastAndWeekendDates = (currentDate: dayjs.Dayjs) => {
         const today = dayjs().startOf('day');
         const day = currentDate.day();
-        return currentDate.isBefore(today) || day === 0 || day === 6; // Disable past dates and weekends
+        return !currentDate.isAfter(today) || day === 0 || day === 6; // Disable past dates and weekends
     };
 
     const handleDateChange = (date: dayjs.Dayjs) => {
@@ -100,23 +100,6 @@ const CreateMeetingModal: React.FC<CreateMeetingModalProps> = ({ visible, onClos
                         onChange={handleDateChange}
                         style={{ width: '100%' }}
                     />
-                </Form.Item>
-                <Form.Item
-                    label="Is Online?"
-                    name="isOnline"
-                    rules={[{ required: true, message: 'Please select meeting type' }]}
-                >
-                    <Select placeholder="Select type">
-                        <Option value={true}>Online</Option>
-                        <Option value={false}>Offline</Option>
-                    </Select>
-                </Form.Item>
-                <Form.Item
-                    label="URL (for online meetings)"
-                    name="url"
-                    rules={[{ required: false }]}
-                >
-                    <Input placeholder="Enter meeting URL" />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit" style={{ width: '100%' }}>

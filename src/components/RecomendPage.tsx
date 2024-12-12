@@ -4,6 +4,7 @@ import { RecomendDoc } from './RecomendDoc';
 import { RecomendTips } from './RecomendTips';
 import recommendationApi from "../api/recommendationApi";
 import { IRecommendation } from '../interfaces/IRecommendation';
+import { wait } from '@testing-library/user-event/dist/utils';
 const { Text, Link } = Typography;
 
 export const RecomendPage: React.FC = () => {
@@ -16,10 +17,12 @@ export const RecomendPage: React.FC = () => {
 
   let recService = new recommendationApi();
 
+  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
   const showDocModal = () => {
     setIsDocModalVisible(true);
     setLoadingDoc(true);
-
+  
     recService.recommend()
       .then(response => {
         console.log(response.data);
@@ -28,7 +31,7 @@ export const RecomendPage: React.FC = () => {
       .catch(error => {
         console.error("Error fetching doc data:", error);
       })
-      .finally(() => setLoadingDoc(false));
+      .finally(() => { setLoadingDoc(false);} );
   };
 
   const showTipsModal = () => {
@@ -105,7 +108,8 @@ const pageStyles = {
     alignItems: 'flex-start', // Align items to the top
     gap: '20px',
     padding: '40px',
-    minHeight: '100vh',
+    minHeight: '50vh',
+    maxHeight: '100vh',
     backgroundColor: '#f0f2f5',
   } as React.CSSProperties,
 };

@@ -42,6 +42,7 @@ export const ProfilePage: React.FC = () => {
           <Divider />
           <Text strong>First Name: </Text> <Text>{profile.firstName}</Text><br />
           <Text strong>Last Name: </Text> <Text>{profile.lastName}</Text><br />
+          <Text strong>Father Name: </Text> <Text>James</Text><br />
           <Text strong>Email: </Text> <Text>{profile.email}</Text><br />
           <Text strong>Role: </Text> <Tag color="blue">{profile.role}</Tag>
           

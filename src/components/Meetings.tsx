@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, Tag , Typography, Modal, List, message, Button, Form, Input, DatePicker, Select } from 'antd';
 import MeetingApi from '../api/meetingApi';
 import dayjs from 'dayjs';
-import { DeleteOutlined, CalendarOutlined  } from '@ant-design/icons';
+import { DeleteOutlined, CalendarOutlined, ExclamationCircleOutlined  } from '@ant-design/icons';
 import { IMeeting } from '../interfaces/IMeeting';
 import  CreateMeetingModal  from '../components/CreateMeetingModal'
 
@@ -68,12 +68,23 @@ export const MeetingsPage: React.FC = () => {
         setIsModalVisible(true);
     };
 
+    const confirmDelete = (id: number) => {
+        Modal.confirm({
+          title: 'Are you sure you want to delete this meet?',
+          icon: <ExclamationCircleOutlined />,
+          okText: 'Yes',
+          cancelText: 'No',
+          onOk: () => handleDeleteMeeting(id),
+        });
+      };
+
     const handleDeleteMeeting = async (id : any) => {
         try {
             await meetingService.deleteMeeting(id);
             message.success('Meeting deleted successfully!');
             setSelectedMeetings(selectedMeetings.filter(meeting => meeting.id !== id));
             fetchUserMeetings();
+            setIsModalVisible(false);
         } catch (error) {
             message.error('Failed to delete meeting');
         }
@@ -104,7 +115,7 @@ export const MeetingsPage: React.FC = () => {
                                 <Button 
                                     type="link" 
                                     icon={<DeleteOutlined />} 
-                                    onClick={() => handleDeleteMeeting(meeting.id)} 
+                                    onClick={() => confirmDelete(meeting.id)} 
                                     danger 
                                 >
                                     Delete

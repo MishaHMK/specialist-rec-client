@@ -243,46 +243,53 @@ export const DiaryPage: React.FC = () => {
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
-        <Form form={form} onFinish={handleAddEntry} layout="vertical">
-          <Form.Item
-            label="Emotion"
-            name="emotionId"
-            rules={[{ required: true, message: 'Please select an emotion' }]}
-          >
-            <Select placeholder="Select Emotion">
-              {emotions.map((emotion) => (
-                <Option key={emotion.id} value={emotion.id}>
-                  {emotion.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: 'Please enter a description' }]}
-          >
-            <TextArea rows={4} placeholder="Describe your day..." />
-          </Form.Item>
-          <Form.Item
-            label="Severity"
-            name="value"
-            rules={[{ required: true, message: 'Please select a severity level' }]}
-          >
-            <Select placeholder="Select Severity">
-              {severityOptions.map(option => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-              Add Entry
-            </Button>
-          </Form.Item>
-        </Form>
+       <Form
+  form={form}
+  onFinish={handleAddEntry}
+  layout="vertical"
+  initialValues={{
+    value: 0.8, // Default severity level
+  }}
+>
+    <Form.Item
+      label="Emotion"
+      name="emotionId"
+      rules={[{ required: true, message: 'Please select an emotion' }]}
+    >
+      <Select placeholder="Select Emotion">
+        {emotions.map((emotion) => (
+          <Select.Option key={emotion.id} value={emotion.id}>
+            {emotion.name}
+          </Select.Option>
+        ))}
+      </Select>
+    </Form.Item>
+    <Form.Item
+      label="Description"
+      name="description"
+      rules={[{ required: true, message: 'Please enter a description' }]}
+    >
+      <TextArea rows={4} placeholder="Describe your day..." />
+    </Form.Item>
+    <Form.Item
+      label="Severity"
+      name="value"
+      rules={[{ required: true, message: 'Please select a severity level' }]}
+    >
+      <Select placeholder="Select Severity">
+        {severityOptions.map(option => (
+          <Select.Option key={option.value} value={option.value}>
+            {option.label}
+          </Select.Option>
+        ))}
+      </Select>
+    </Form.Item>
+    <Form.Item>
+      <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+        Add Entry
+      </Button>
+    </Form.Item>
+  </Form>
       </Modal>
         </>
       ) : (

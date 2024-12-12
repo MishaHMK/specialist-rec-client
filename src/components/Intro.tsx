@@ -37,11 +37,11 @@ export const Intro: React.FC = () => {
         <div style={contentStyle}>
           <Carousel autoplay autoplaySpeed={5000} dots={true} dotPosition="top" style={{ paddingBottom: '8%' }}>
             <div>
-              <h1 style={{ paddingTop: '3%', color: "white" }}>Diary</h1>
+              <h1 style={{ paddingTop: '3%', color: "white" }}>Щоденник</h1>
               <ReconciliationFilled style={{ paddingTop: '5%', color: "white", fontSize: "120px" }} />
-              <h3 style={{ paddingTop: '5%', color: "white" }}>A personal journal, you to record entries describing <br /> your emotional states and experiences.</h3>
+              <h3 style={{ paddingTop: '5%', color: "white" }}>Ваше особисте середовище, де можна зберігати<br /> інформацію про ваш психологічий стан.</h3>
               <div style={{ paddingTop: '5%' }}>
-                <Button type="primary" shape="round">Diary</Button>
+                <Button type="primary" shape="round">Перейти</Button>
               </div>
             </div>
             <div>

@@ -11,6 +11,7 @@ import { ProfilePage } from './components/ProfilePage';
 import { UsersDiary } from './components/UsersDiary';
 import { PatientsPage } from './components/Patients';
 import './App.css';
+import './i18n'; 
 
 function App() {
   return (
